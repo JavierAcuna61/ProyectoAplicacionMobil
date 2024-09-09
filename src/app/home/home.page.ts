@@ -9,4 +9,10 @@ export class HomePage {
 
   constructor() {}
 
+
+  login() {
+    console.log('Login button clicked');
+    
+  }
 }
+

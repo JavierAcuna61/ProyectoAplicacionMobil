@@ -5,91 +5,28 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form #registrationForm="ngForm">
-
-    <!-- Nombre -->
-    <ion-item>
-      <ion-label position="floating">Nombre</ion-label>
-      <ion-input
-        type="text"
-        name="firstName"
-        ngModel
-        required
-        minlength="2"
-        #firstName="ngModel">
-      </ion-input>
-    </ion-item>
-    <ion-text color="danger" *ngIf="firstName.invalid && firstName.touched">
-      <p>El nombre es obligatorio y debe tener al menos 2 caracteres.</p>
-    </ion-text>
-
-    <!-- Apellido -->
-    <ion-item>
-      <ion-label position="floating">Apellido</ion-label>
-      <ion-input
-        type="text"
-        name="lastName"
-        ngModel
-        required
-        minlength="2"
-        #lastName="ngModel">
-      </ion-input>
-    </ion-item>
-    <ion-text color="danger" *ngIf="lastName.invalid && lastName.touched">
-      <p>El apellido es obligatorio y debe tener al menos 2 caracteres.</p>
-    </ion-text>
-
-    <!-- RUT (validación básica) -->
-    <ion-item>
-      <ion-label position="floating">RUT</ion-label>
-      <ion-input
-        type="text"
-        name="rut"
-        ngModel
-        required
-        pattern="[0-9]{7,8}-[0-9Kk]"
-        #rut="ngModel"
-        >
-      </ion-input>
-    </ion-item>
-    <ion-text color="danger" *ngIf="rut.invalid && rut.touched">
-      <p>El RUT es obligatorio y debe tener un formato válido (Ej: 12345678-K).</p>
-    </ion-text>
-
-    <!-- Correo electrónico -->
-    <ion-item>
-      <ion-label position="floating">Correo Electrónico</ion-label>
-      <ion-input
-        type="email"
-        name="email"
-        ngModel
-        required
-        #email="ngModel"
->
-      </ion-input>
-    </ion-item>
-    <ion-text color="danger" *ngIf="email.invalid && email.touched">
-      <p>Debe ser un correo electrónico válido.</p>
-    </ion-text>
-
+  <ion-card>
+   <form [formGroup]="Usuario" (ngSubmit)="registro()">
     
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input
-        type="password"
-        name="password"
-        ngModel
-        required
-        minlength="8"
-        #password="ngModel">
-      </ion-input>
-    </ion-item>
-    <ion-text color="danger" *ngIf="password.invalid && password.touched">
-      <p>La contraseña debe tener al menos 8 caracteres.</p>
-    </ion-text>
+    <ion-input formControlName="rut" type="text" labelPlacement="stacked" label="RUT"></ion-input>
+    <br>
+    <ion-input formControlName="nombre" type="text" labelPlacement="stacked" label="Nombre"></ion-input>
+    <br>
+    <ion-input formControlName="apellido" type="text" labelPlacement="stacked" label="Apellido"></ion-input>
+    <br>
+    <ion-input formControlName="fecha_nacimiento" type="date" labelPlacement="stacked" label="Fecha nacimiento"></ion-input>
+    <br>
+    <ion-input formControlName="Correo electronico" type="email" label="Email" labelPlacement="stacked"></ion-input>
+    <ion-select formControlName="genero" label="Género" labelPlacement="floating" cancelText="Cancelar!">
+      <ion-select-option>Masculino</ion-select-option>
+      <ion-select-option>Femenino</ion-select-option>
+      <ion-select-option>Otro</ion-select-option>
+    </ion-select>
+    <br>
+    <ion-button id="present-alert" [disabled]="Usuario.invalid" type="submit" size="block" color="secondary">REGISTRAR</ion-button>
+    <ion-alert trigger="present-alert" header="alert!" [buttons]="alertButtons" (didDismiss)="setResult($event)"></ion-alert>
+   </form>
+  
+  </ion-card>
 
-    <ion-button expand="full" [disabled]="registrationForm.invalid">
-      Registrarse
-    </ion-button>
-  </form>
 </ion-content>
