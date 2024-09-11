@@ -11,19 +11,19 @@
     <ion-card-header> Login</ion-card-header>
     <ion-card-content>
     <ion-input
+    ngmodel ="email"
     type="email"
-    label="Email"
+    label="Correo"
     labelPlacement="floating"
     errorText="Invalid email"
     [clearInput]="true"
     fill="outline"
-    ngModel
-    email
     >    
     </ion-input>
     
     <br>
-      <ion-input
+      <ion-input 
+        ngmodel="password"
         label="Contraseña"
         labelPlacement="floating"
         [clearInput]="true"
@@ -31,10 +31,15 @@
         fill="outline">
     </ion-input>
     <br>
-    <ion-button (click)="login()" size="block" color=>INGRESAR</ion-button>
+    <ion-button [routerLink]="['/menu']" (click)="login()" size="block" color="primary">
+      INGRESAR
+    </ion-button>
+
   
   </ion-card-content>
   </ion-card>
   <p> No tienes cuenta, regístrate <a routerLink="/registro">AQUÍ</a></p>
+  <br>
+  <p> <a routerLink="/recuperacion"></a>¿Olvidaste tu Contraseña?</p>
   
 </ion-content>

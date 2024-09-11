@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Menu</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+
+      <ion-tab-button tab="reservas" [routerLink]="">
+        <ion-icon name="calendar-number-sharp"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button tab="perfil" [routerLink]="">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button tab="administrar" [routerLink]="">
+        <ion-icon name="build"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button tab="Salir" [routerLink]="['/home']">
+        <ion-icon name="power"></ion-icon>
+      </ion-tab-button>
+      
+
+    </ion-tab-bar>
+
+  </ion-tabs>
+
+</ion-content>
