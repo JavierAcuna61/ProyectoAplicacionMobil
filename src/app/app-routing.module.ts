@@ -20,10 +20,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
   },
   {
-    path: 'administrar',
-    loadChildren: () => import('./pages/administrar/administrar.module').then( m => m.AdministrarPageModule)
-  },
-  {
     path: 'usuario',
     loadChildren: () => import('./pages/usuario/usuario.module').then( m => m.UsuarioPageModule)
   },
@@ -39,6 +35,12 @@ const routes: Routes = [
     path: 'recuperacion',
     loadChildren: () => import('./pages/recuperacion/recuperacion.module').then( m => m.RecuperacionPageModule)
   },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/error404/error404.module').then( m => m.Error404PageModule)
+  },
+
+
 
 
 
