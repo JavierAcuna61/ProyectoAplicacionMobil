@@ -29,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'administrar',
-    loadChildren: () => import('./administrar/administrar.module').then( m => m.AdministrarPageModule)
+    loadChildren: () => import('./pages/administrar/administrar.module').then( m => m.AdministrarPageModule)
   },
   {
     path: 'viaje',

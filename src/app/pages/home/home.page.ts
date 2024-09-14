@@ -10,8 +10,8 @@ export class HomePage {
 
   titulo: string ="pagina login";
   
-  email:string="";
-  password:string="";
+  email:string="hola123@gmail.com";
+  password:string="hola1234";
 
   constructor(private router: Router) {}
 
@@ -19,7 +19,7 @@ export class HomePage {
   }
 
   login() {
-    if(this.email == "hola123@gmail.com" && this.password == "123456789"){
+    if(this.email == "hola123@gmail.com" && this.password == "hola1234"){
       this.router.navigate(['/menu']);
   }else{
     alert("Correo o contraseña invalida");
