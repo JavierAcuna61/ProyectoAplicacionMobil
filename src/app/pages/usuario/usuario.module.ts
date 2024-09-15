@@ -18,3 +18,10 @@ import { UsuarioPage } from './usuario.page';
   declarations: [UsuarioPage]
 })
 export class UsuarioPageModule {}
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: 'admin' | 'student';  // Tipo de usuario
+}

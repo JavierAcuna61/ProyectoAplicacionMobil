@@ -15,7 +15,7 @@ export class RegistroPage implements OnInit {
   Usuario: FormGroup;
 
   constructor(private router: Router, private alertController: AlertController) {
-    // Inicialización de fecha máxima para el campo de fecha de nacimiento
+    // Configuración de fechas mínima y máxima
     const fechaActual = new Date();
     fechaActual.setFullYear(fechaActual.getFullYear() - 18); 
     this.fechaMaxima = fechaActual.toISOString().split('T')[0]; 
@@ -24,7 +24,7 @@ export class RegistroPage implements OnInit {
     fechaMinima.setFullYear(fechaMinima.getFullYear() - 65); 
     this.fechaMinima = fechaMinima.toISOString().split('T')[0]; 
 
-    // Definición del formulario
+    // Inicialización del formulario
     this.Usuario = new FormGroup({
       rut: new FormControl('', [Validators.required, Validators.pattern("^[0-9]{7,8}-[0-9Kk]{1}$"), this.validarRUT()]),
       nombre: new FormControl('', [Validators.required, Validators.pattern("[A-Za-z]{3,20}")]),
@@ -39,7 +39,7 @@ export class RegistroPage implements OnInit {
   }
 
   ngOnInit() {
-    // Generar el nombre de usuario cuando el componente se inicializa
+    // Generación del nombre de usuario basado en el correo electrónico
     this.Usuario.get('correo_electronico')?.valueChanges.subscribe(value => {
       this.generarNombreUsuario(value);
     });
@@ -47,14 +47,10 @@ export class RegistroPage implements OnInit {
 
   async registro(): Promise<void> {
     if (this.Usuario.valid) {
-      // Recuperar usuarios existentes desde localStorage
+      // Guardar usuarios en localStorage
       const existingUsers = JSON.parse(localStorage.getItem('usuarios') || '[]');
       existingUsers.push(this.Usuario.value);
-      console.log('Usuarios existentes antes del registro:', existingUsers);
-  
-      // Guardar la lista actualizada en localStorage
       localStorage.setItem('usuarios', JSON.stringify(existingUsers));
-      console.log('Usuarios después del registro:', existingUsers);
   
       const alert = await this.alertController.create({
         header: 'Registro Exitoso',
@@ -133,9 +129,9 @@ export class RegistroPage implements OnInit {
   }
 
   generarNombreUsuario(email: string) {
-  const username = email.split('@')[0];
-  if (!this.Usuario.get('nombre_usuario')?.value) {
-    this.Usuario.get('nombre_usuario')?.setValue(username);
+    const username = email.split('@')[0];
+    if (!this.Usuario.get('nombre_usuario')?.value) {
+      this.Usuario.get('nombre_usuario')?.setValue(username);
+    }
   }
-}
 }

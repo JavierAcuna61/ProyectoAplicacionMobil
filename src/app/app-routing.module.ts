@@ -21,11 +21,6 @@ const routes: Routes = [
   },
   {
 
-    path: 'administrar',
-    loadChildren: () => import('./pages/administrar/administrar.module').then(m => m.AdministrarPageModule)
-  },
-  {
-
     path: 'usuario',
     loadChildren: () => import('./pages/usuario/usuario.module').then(m => m.UsuarioPageModule)
   },
@@ -44,7 +39,12 @@ const routes: Routes = [
   {
     path: '**',  
     redirectTo: 'error404'
+  },
+  {
+    path: 'administrador',
+    loadChildren: () => import('./pages/administrador/administrador.module').then( m => m.AdministradorPageModule)
   }
+
   
 ];
 

@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gestión de Usuarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let user of users">
+      <ion-label>
+        <h2>{{ user.name }} ({{ user.role }})</h2>
+        <p>{{ user.email }}</p>
+      </ion-label>
+      <ion-button (click)="editUser(user)" fill="outline" color="primary">Editar</ion-button>
+      <ion-button (click)="deleteUser(user.id)" fill="outline" color="danger">Eliminar</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" (click)="addAdmin()">Agregar Administrador</ion-button>
+</ion-content>
