@@ -93,7 +93,6 @@ export class RegistroPage implements OnInit {
     if (this.Usuario.hasError('notMatching')) {
       return 'Las contraseñas no coinciden.';
     }
-    // Puedes agregar más mensajes específicos aquí si es necesario
     return 'Por favor, completa el formulario correctamente.';
   }
 
