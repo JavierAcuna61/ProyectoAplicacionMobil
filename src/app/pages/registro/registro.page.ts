@@ -33,43 +33,77 @@ export class RegistroPage implements OnInit {
       genero: new FormControl('', [Validators.required]),
       correo_electronico: new FormControl('', [Validators.required, Validators.email]),
       contraseña: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      confirmarContraseña: new FormControl('', [Validators.required])
+      confirmarContraseña: new FormControl('', [Validators.required]),
+      nombre_usuario: new FormControl('', [Validators.required])
     }, { validators: this.matchingPasswords('contraseña', 'confirmarContraseña') });
   }
 
   ngOnInit() {
+    // Generar el nombre de usuario cuando el componente se inicializa
+    this.Usuario.get('correo_electronico')?.valueChanges.subscribe(value => {
+      this.generarNombreUsuario(value);
+    });
   }
 
   async registro(): Promise<void> {
     if (this.Usuario.valid) {
+      // Recuperar usuarios existentes desde localStorage
+      const existingUsers = JSON.parse(localStorage.getItem('usuarios') || '[]');
+      existingUsers.push(this.Usuario.value);
+      console.log('Usuarios existentes antes del registro:', existingUsers);
+  
+      // Guardar la lista actualizada en localStorage
+      localStorage.setItem('usuarios', JSON.stringify(existingUsers));
+      console.log('Usuarios después del registro:', existingUsers);
+  
       const alert = await this.alertController.create({
         header: 'Registro Exitoso',
         message: '¡Te has registrado exitosamente!',
         buttons: ['OK']
       });
-
+  
       await alert.present();
       await alert.onDidDismiss();
-
+  
       this.router.navigate(['/home']);
     } else {
       const alert = await this.alertController.create({
         header: 'Error',
-        message: 'Por favor, completa el formulario correctamente.',
+        message: this.getFormErrorMessage(),
         buttons: ['OK']
       });
-
+  
       await alert.present();
     }
+  }
+
+  getFormErrorMessage(): string {
+    if (this.Usuario.get('nombre')?.hasError('required')) {
+      return 'El nombre es requerido.';
+    }
+    if (this.Usuario.get('apellido')?.hasError('required')) {
+      return 'El apellido es requerido.';
+    }
+    if (this.Usuario.get('correo_electronico')?.hasError('email')) {
+      return 'Correo electrónico inválido.';
+    }
+    if (this.Usuario.get('contraseña')?.hasError('minlength')) {
+      return 'La contraseña debe tener al menos 6 caracteres.';
+    }
+    if (this.Usuario.hasError('notMatching')) {
+      return 'Las contraseñas no coinciden.';
+    }
+    // Puedes agregar más mensajes específicos aquí si es necesario
+    return 'Por favor, completa el formulario correctamente.';
   }
 
   validarRUT(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const rutValue = control.value;
-      if (!rutValue) return null; // Si el campo está vacío, no se realiza ninguna validación adicional
+      if (!rutValue) return null;
 
       const [rutBody, dvIngresado] = rutValue.split('-');
-      if (!rutBody || !dvIngresado) return { invalidRUT: true }; // Asegurarse que tenga la estructura "cuerpo-dígito"
+      if (!rutBody || !dvIngresado) return { invalidRUT: true };
 
       const dvCalculado = this.calcularDigitoVerificador(rutBody);
       return dvCalculado.toLowerCase() === dvIngresado.toLowerCase() ? null : { invalidRUT: true };
@@ -80,10 +114,9 @@ export class RegistroPage implements OnInit {
     let suma = 0;
     let multiplicador = 2;
 
-    // Recorrer el RUT desde la derecha a la izquierda
     for (let i = rut.length - 1; i >= 0; i--) {
       suma += parseInt(rut[i], 10) * multiplicador;
-      multiplicador = multiplicador === 7 ? 2 : multiplicador + 1; // Si el multiplicador llega a 7, se reinicia a 2
+      multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
     }
 
     const resto = 11 - (suma % 11);
@@ -99,4 +132,11 @@ export class RegistroPage implements OnInit {
       return password === confirmPassword ? null : { notMatching: true };
     };
   }
+
+  generarNombreUsuario(email: string) {
+  const username = email.split('@')[0];
+  if (!this.Usuario.get('nombre_usuario')?.value) {
+    this.Usuario.get('nombre_usuario')?.setValue(username);
+  }
+}
 }

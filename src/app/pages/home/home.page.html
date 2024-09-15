@@ -8,38 +8,36 @@
 
 <ion-content [fullscreen]="true">
   <ion-card>
-    <ion-card-header> Login</ion-card-header>
+    <ion-card-header>Login</ion-card-header>
     <ion-card-content>
-    <ion-input
-    ngmodel ="email"
-    type="email"
-    label="Correo"
-    labelPlacement="floating"
-    errorText="Invalid email"
-    [clearInput]="true"
-    fill="outline"
-    >    
-    </ion-input>
-    
-    <br>
-      <ion-input 
-        ngmodel="password"
-        label="Contraseña"
-        labelPlacement="floating"
-        [clearInput]="true"
-        type="password"
-        fill="outline">
-    </ion-input>
-    <br>
-    <ion-button [routerLink]="['/menu']" (click)="login()" size="block" color="primary">
-      INGRESAR
-    </ion-button>
+      <ion-input
+        [(ngModel)]="email"
+        type="email"
+        placeholder="Correo Electrónico"
+        clearInput
+        fill="outline"
+      ></ion-input>
 
-  
-  </ion-card-content>
+      <br>
+
+      <ion-input
+        [(ngModel)]="password"
+        placeholder="Contraseña"
+        type="password"
+        clearInput
+        fill="outline"
+      ></ion-input>
+
+      <br>
+
+      <ion-button (click)="login()" size="block" color="primary">
+        INGRESAR
+      </ion-button>
+
+    </ion-card-content>
   </ion-card>
-  <p> No tienes cuenta, regístrate <a routerLink="/registro">AQUÍ</a></p>
-  <br>
-  <p> <a routerLink="/recuperacion"></a>¿Olvidaste tu Contraseña?</p>
   
+  <p>No tienes cuenta, regístrate <a routerLink="/registro">AQUÍ</a></p>
+  <br>
+  <p><a routerLink="/recuperacion">¿Olvidaste tu Contraseña?</a></p>
 </ion-content>

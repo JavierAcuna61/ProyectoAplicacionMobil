@@ -1,27 +1,24 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Recuperacion de Contraseña</ion-title>
+    <ion-title>Recuperación de Contraseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-card>
-
+    <ion-card-header>Recuperación de Contraseña</ion-card-header>
     <ion-card-content>
-      <br>
       <ion-input
-       ngmodel ="email"
-       type="email"
-       label="Ingrersa tu correo"
-       labelPlacement="floating"
-       errorText="Invalid email"
-       [clearInput]="true"
-       fill="outline">
-      </ion-input>
+        [(ngModel)]="email"
+        type="email"
+        placeholder="Ingresa tu correo electrónico"
+        clearInput
+        fill="outline"
+      ></ion-input>
       <br>
-    <ion-button (click)="presentAlert()" size="block" color="primary">ENVIAR</ion-button>
-
+      <ion-button (click)="presentAlert()" size="block" color="primary">
+        Enviar Código de Verificación
+      </ion-button>
     </ion-card-content>
-
   </ion-card>
 </ion-content>
