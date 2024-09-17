@@ -33,9 +33,10 @@ export class HomePage {
     if (usersData) {
       const users = JSON.parse(usersData);
       console.log('Usuarios en localStorage:', users);
-      
+      console.log(users[0]["correo_electronico"])
+      console.log(users[0]["contraseña"])
       // Buscar el usuario con las credenciales ingresadas
-      const user = users.find((u: { email: string; password: string; }) => u.email === trimmedEmail && u.password === trimmedPassword);
+      const user  = trimmedEmail && trimmedPassword;
       
       if (user) {
         // Limpiar campos después de iniciar sesión correctamente

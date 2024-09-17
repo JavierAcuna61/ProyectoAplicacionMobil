@@ -32,18 +32,20 @@ const routes: Routes = [
     path: 'recuperacion',
     loadChildren: () => import('./pages/recuperacion/recuperacion.module').then(m => m.RecuperacionPageModule)
   },
+  
+  {
+    path: 'administrador',
+    loadChildren: () => import('./pages/administrador/administrador.module').then( m => m.AdministradorPageModule)
+  },
   {
     path: 'error404',
     loadChildren: () => import('./pages/error404/error404.module').then(m => m.Error404PageModule)
   },
   {
-    path: '**',  
+    path: '**',  //este siempre es el ultimo
     redirectTo: 'error404'
-  },
-  {
-    path: 'administrador',
-    loadChildren: () => import('./pages/administrador/administrador.module').then( m => m.AdministradorPageModule)
   }
+  
 
   
 ];
