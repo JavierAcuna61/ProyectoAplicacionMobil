@@ -1,54 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { UsuarioService } from 'src/app/services/usuario.service';
+
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+
   titulo: string = "Página de Login";
   email: string = "";
   password: string = "";
+  usuarios: any[] = [];
 
-  constructor(private router: Router, private alertController: AlertController) {}
+  constructor(
+    private router: Router, 
+    private alertController: AlertController,
+    private usuarioService: UsuarioService
+  ) {}
 
-  ngOnInit() {}
-  
+  ngOnInit() {
+    // Cargar usuarios al inicializar la página
+    this.usuarios = this.usuarioService.obtenerUsuarios();
+  }
 
   async login() {
-    // Eliminar espacios en blanco al principio y al final
     const trimmedEmail = this.email.trim();
     const trimmedPassword = this.password.trim();
-  
-    // Verificar si los campos de email y contraseña están vacíos
+
     if (!trimmedEmail || !trimmedPassword) {
       await this.showAlert("Por favor, ingresa ambos campos: correo y contraseña.");
       return;
     }
-  
-    // Recuperar datos de usuarios desde localStorage
-    const usersData = localStorage.getItem('usuarios');
-    if (usersData) {
-      const users = JSON.parse(usersData);
-      console.log('Usuarios en localStorage:', users);
-      
-      // Buscar el usuario con las credenciales ingresadas
-      const user = users.find((u: { email: string; password: string; }) => u.email === trimmedEmail && u.password === trimmedPassword);
-      
-      if (user) {
-        // Limpiar campos después de iniciar sesión correctamente
-        this.email = '';
-        this.password = '';
-  
-        // Navegar a la página del menú si las credenciales son correctas
-        this.router.navigate(['/menu']);
-      } else {
-        await this.showAlert("Correo o contraseña inválidos.");
-      }
+
+    // Buscar el usuario con las credenciales ingresadas
+    const user = this.usuarios.find((u: { correo_electronico: string; contraseña: string; }) => 
+      u.correo_electronico === trimmedEmail && u.contraseña === trimmedPassword
+    );
+
+    if (user) {
+      this.email = '';
+      this.password = '';
+      this.router.navigate(['/menu']);
     } else {
-      await this.showAlert("No se ha registrado ningún usuario.");
+      await this.showAlert("Correo o contraseña inválidos.");
     }
   }
 
@@ -61,6 +59,4 @@ export class HomePage {
 
     await alert.present();
   }
-
-  
 }

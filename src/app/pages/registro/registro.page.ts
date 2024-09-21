@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { UsuarioService } from 'src/app/services/usuario.service';
+
 
 @Component({
   selector: 'app-registro',
@@ -9,13 +11,15 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./registro.page.scss'],
 })
 export class RegistroPage implements OnInit {
-
   fechaMaxima: string = '';
   fechaMinima: string = '';
   Usuario: FormGroup;
 
-  constructor(private router: Router, private alertController: AlertController) {
-    // Inicialización de fecha máxima para el campo de fecha de nacimiento
+  constructor(
+    private router: Router,
+    private alertController: AlertController,
+    private usuarioService: UsuarioService // Inyecta el servicio de usuarios
+  ) {
     const fechaActual = new Date();
     fechaActual.setFullYear(fechaActual.getFullYear() - 18); 
     this.fechaMaxima = fechaActual.toISOString().split('T')[0]; 
@@ -39,7 +43,6 @@ export class RegistroPage implements OnInit {
   }
 
   ngOnInit() {
-    // Generar el nombre de usuario cuando el componente se inicializa
     this.Usuario.get('correo_electronico')?.valueChanges.subscribe(value => {
       this.generarNombreUsuario(value);
     });
@@ -47,15 +50,19 @@ export class RegistroPage implements OnInit {
 
   async registro(): Promise<void> {
     if (this.Usuario.valid) {
-      // Recuperar usuarios existentes desde localStorage
-      const existingUsers = JSON.parse(localStorage.getItem('usuarios') || '[]');
-      existingUsers.push(this.Usuario.value);
-      console.log('Usuarios existentes antes del registro:', existingUsers);
+      const existingUser = this.usuarioService.obtenerUsuarioPorCorreo(this.Usuario.value.correo_electronico);
+      if (existingUser) {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'Este correo electrónico ya está registrado.',
+          buttons: ['OK']
+        });
+        await alert.present();
+        return;
+      }
   
-      // Guardar la lista actualizada en localStorage
-      localStorage.setItem('usuarios', JSON.stringify(existingUsers));
-      console.log('Usuarios después del registro:', existingUsers);
-  
+      this.usuarioService.agregarUsuario(this.Usuario.value);
+      
       const alert = await this.alertController.create({
         header: 'Registro Exitoso',
         message: '¡Te has registrado exitosamente!',
@@ -64,7 +71,7 @@ export class RegistroPage implements OnInit {
   
       await alert.present();
       await alert.onDidDismiss();
-  
+      this.Usuario.reset(); // Limpiar el formulario
       this.router.navigate(['/home']);
     } else {
       const alert = await this.alertController.create({
@@ -76,25 +83,51 @@ export class RegistroPage implements OnInit {
       await alert.present();
     }
   }
+  
 
   getFormErrorMessage(): string {
     if (this.Usuario.get('nombre')?.hasError('required')) {
-      return 'El nombre es requerido.';
+        return 'El nombre es requerido.';
+    }
+    if (this.Usuario.get('nombre')?.hasError('pattern')) {
+        return 'El nombre debe contener solo letras y tener entre 3 y 20 caracteres.';
     }
     if (this.Usuario.get('apellido')?.hasError('required')) {
-      return 'El apellido es requerido.';
+        return 'El apellido es requerido.';
+    }
+    if (this.Usuario.get('apellido')?.hasError('pattern')) {
+        return 'El apellido debe contener solo letras y tener entre 3 y 20 caracteres.';
+    }
+    if (this.Usuario.get('correo_electronico')?.hasError('required')) {
+        return 'El correo electrónico es requerido.';
     }
     if (this.Usuario.get('correo_electronico')?.hasError('email')) {
-      return 'Correo electrónico inválido.';
+        return 'Correo electrónico inválido.';
+    }
+    if (this.Usuario.get('contraseña')?.hasError('required')) {
+        return 'La contraseña es requerida.';
     }
     if (this.Usuario.get('contraseña')?.hasError('minlength')) {
-      return 'La contraseña debe tener al menos 6 caracteres.';
+        return 'La contraseña debe tener al menos 6 caracteres.';
     }
     if (this.Usuario.hasError('notMatching')) {
-      return 'Las contraseñas no coinciden.';
+        return 'Las contraseñas no coinciden.';
+    }
+    if (this.Usuario.get('rut')?.hasError('required')) {
+        return 'El RUT es requerido.';
+    }
+    if (this.Usuario.get('rut')?.hasError('pattern')) {
+        return 'El RUT debe seguir el formato correcto (7-8 dígitos y un dígito verificador).';
+    }
+    if (this.Usuario.get('telefono')?.hasError('required')) {
+        return 'El número telefónico es requerido.';
+    }
+    if (this.Usuario.get('telefono')?.hasError('pattern')) {
+        return 'El número telefónico debe contener solo números.';
     }
     return 'Por favor, completa el formulario correctamente.';
-  }
+}
+
 
   validarRUT(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -131,11 +164,20 @@ export class RegistroPage implements OnInit {
       return password === confirmPassword ? null : { notMatching: true };
     };
   }
+  
 
   generarNombreUsuario(email: string) {
-  const username = email.split('@')[0];
-  if (!this.Usuario.get('nombre_usuario')?.value) {
-    this.Usuario.get('nombre_usuario')?.setValue(username);
+    const username = email.split('@')[0];
+    if (!this.Usuario.get('nombre_usuario')?.value) {
+      const nombre = this.Usuario.get('nombre')?.value || '';
+      const apellido = this.Usuario.get('apellido')?.value || '';
+      const nombreUsuario = `${nombre.toLowerCase().charAt(0)}.${apellido.toLowerCase()}`;
+      this.Usuario.get('nombre_usuario')?.setValue(nombreUsuario);
+    }
   }
-}
+  
+
+
+  
+  
 }

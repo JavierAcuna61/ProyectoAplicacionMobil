@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,49 +8,34 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnInit {
-
   nombreUsuario: string = '';
 
-  constructor(private router: Router, private alertController: AlertController) { }
+  constructor(private router: Router, private usuarioService: UsuarioService) {}
 
   async ngOnInit() {
-    const usuario = localStorage.getItem('usuario');
-    if (usuario) {
-      const userData = JSON.parse(usuario);
-      this.nombreUsuario = userData.nombre_usuario;
-      await this.presentWelcomeAlert();
+    const usuario = this.usuarioService.obtenerUsuarios(); // Aquí puedes obtener el usuario, si lo tienes guardado
+    if (usuario.length > 0) { // Asegúrate de verificar que hay usuarios
+      this.nombreUsuario = usuario[0].nombre_usuario; // Ajusta según cómo estés manejando los usuarios
+      await this.usuarioService.mostrarAlerta('Bienvenido', `¡Hola, ${this.nombreUsuario}!`);
     }
   }
 
-  async presentWelcomeAlert() {
-    const alert = await this.alertController.create({
-      header: 'Bienvenido',
-      message: `¡Hola, ${this.nombreUsuario}!`,
-      buttons: ['OK']
-    });
-
-    await alert.present();
-  }
-
   async confirmarSalida() {
-    const alert = await this.alertController.create({
+    const alert = await this.usuarioService.alertController.create({
       header: 'Confirmación',
       message: '¿Estás seguro de que deseas salir?',
       buttons: [
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {
-            // Acción cuando se cancela
-          }
         },
         {
           text: 'Salir',
           handler: () => {
             this.router.navigate(['/home']);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     await alert.present();

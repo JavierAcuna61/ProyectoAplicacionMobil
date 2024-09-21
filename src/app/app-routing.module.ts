@@ -39,12 +39,14 @@ const routes: Routes = [
   },
   {
     path: 'error404',
-    loadChildren: () => import('./pages/error404/error404.module').then(m => m.Error404PageModule)
+    loadChildren: () => import('./pages/error404/error404.module').then( m => m.Error404PageModule)
   },
   {
     path: '**',  
-    redirectTo: 'error404'
-  }
+    redirectTo: ''
+  },
+  
+
   
 ];
 
@@ -55,3 +57,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+export class AdministrarPageRoutingModule {}
