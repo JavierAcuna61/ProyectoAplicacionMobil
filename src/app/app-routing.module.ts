@@ -39,12 +39,14 @@ const routes: Routes = [
   },
   {
     path: 'error404',
-    loadChildren: () => import('./pages/error404/error404.module').then(m => m.Error404PageModule)
+    loadChildren: () => import('./pages/error404/error404.module').then( m => m.Error404PageModule)
   },
   {
     path: '**',  //este siempre es el ultimo
-    redirectTo: 'error404'
-  }
+    redirectTo: 'error404',
+    pathMatch: 'full'
+  },
+
   
 
   

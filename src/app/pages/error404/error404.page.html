@@ -1,24 +1,26 @@
- 
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Error 404</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
+<ion-content class="ion-text-center" style="--background: url('../../../assets/background404.webp') no-repeat center center / cover;">
 
-<ion-content class="ion-text-center">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Error 404</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <img src="assests/img/error404" alt="error404">
-      <p>La página que estás buscando no se encuentra.</p>
-      <ion-button routerLink="/" color="primary">Volver al Inicio</ion-button>
-    </ion-card-content>
-  </ion-card>
-
-<ion-content>
-  <img src="../../../assets/error404.webp" alt="error404">
+  <div class="error-container">
+    <img src="../../../assets/error404.png" alt="Error 404" class="error-image">
+    <ion-card class="error-card">
+      <ion-card-header>
+        <ion-card-title class="error-title">Oops! Página no encontrada</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <p>Lo sentimos, la página que buscas no está disponible.</p>
+        <ion-button routerLink="/" color="primary" expand="block" shape="round" class="home-button">Volver al Inicio</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
 </ion-content>
