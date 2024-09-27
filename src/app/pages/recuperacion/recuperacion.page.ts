@@ -33,7 +33,7 @@ export class RecuperacionPage implements OnInit {
     await alert.present();
     // Redirigir al home después de que la alerta sea cerrada
     await alert.onDidDismiss();
-    this.router.navigate(['/home']);
+    this.router.navigate(['/login']);
   }
 
   ngOnInit() {

@@ -61,7 +61,7 @@ export class RegistroPage implements OnInit {
       await alert.present();
       await alert.onDidDismiss();
   
-      this.router.navigate(['/home']);
+      this.router.navigate(['/login']);
     } else {
       const alert = await this.alertController.create({
         header: 'Error',
