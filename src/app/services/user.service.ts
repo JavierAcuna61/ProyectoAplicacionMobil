@@ -17,9 +17,9 @@ export class UserService {
     this.users.push(user);
   }
 
-  // Leer todos los usuarios
+
   getUsers(): User[] {
-    return [...this.users];  // Devuelve una copia de la lista de usuarios
+    return [...this.users];  
   }
 
   // Leer un solo usuario

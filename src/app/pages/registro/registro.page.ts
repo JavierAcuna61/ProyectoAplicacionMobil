@@ -13,16 +13,16 @@ export class RegistroPage implements OnInit {
   fechaMaxima: string = '';
   fechaMinima: string = '';
   Usuario: FormGroup;
+  mostrarCampoPatente: boolean = false; // Controla la visibilidad del campo de patente
 
   constructor(private router: Router, private alertController: AlertController) {
-    // Configuración de fechas mínima y máxima
     const fechaActual = new Date();
-    fechaActual.setFullYear(fechaActual.getFullYear() - 18); 
-    this.fechaMaxima = fechaActual.toISOString().split('T')[0]; 
+    fechaActual.setFullYear(fechaActual.getFullYear() - 18);
+    this.fechaMaxima = fechaActual.toISOString().split('T')[0];
 
     const fechaMinima = new Date();
-    fechaMinima.setFullYear(fechaMinima.getFullYear() - 65); 
-    this.fechaMinima = fechaMinima.toISOString().split('T')[0]; 
+    fechaMinima.setFullYear(fechaMinima.getFullYear() - 65);
+    this.fechaMinima = fechaMinima.toISOString().split('T')[0];
 
     // Inicialización del formulario
     this.Usuario = new FormGroup({
@@ -30,24 +30,47 @@ export class RegistroPage implements OnInit {
       nombre: new FormControl('', [Validators.required, Validators.pattern("[A-Za-z]{3,20}")]),
       apellido: new FormControl('', [Validators.required, Validators.pattern("[A-Za-z]{3,20}")]),
       fecha_nacimiento: new FormControl('', [Validators.required]),
-      genero: new FormControl('', [Validators.required]),
+      genero: new FormControl('', [Validators.required]), 
+      tiene_auto: new FormControl(false), // Campo "¿Tiene auto?"
+      patente: new FormControl('', []), // Inicialmente sin validadores
       correo_electronico: new FormControl('', [Validators.required, Validators.email]),
-      contraseña: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      contraseña: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]),
       confirmarContraseña: new FormControl('', [Validators.required]),
-      nombre_usuario: new FormControl('', [Validators.required])
+      nombre_usuario: new FormControl('', [Validators.required]),
+     
     }, { validators: this.matchingPasswords('contraseña', 'confirmarContraseña') });
+
+    // Subscribirse a los cambios del campo "tiene_auto"
+    this.Usuario.get('tiene_auto')?.valueChanges.subscribe(value => {
+      this.mostrarCampoPatente = value; // Mostrar/ocultar campo de patente
+      if (value) {
+        this.Usuario.get('patente')?.setValidators([
+          Validators.required,
+          Validators.pattern("^[A-Z]{2}-[A-Z]{2}-[0-9]{2}$|^[A-Z]{2}-[0-9]{2}-[0-9]{2}$") // Validación para ambos formatos
+        ]);
+      } else {
+        this.Usuario.get('patente')?.clearValidators();
+      }
+      this.Usuario.get('patente')?.updateValueAndValidity();
+    });
   }
 
   ngOnInit() {
-    // Generación del nombre de usuario basado en el correo electrónico
     this.Usuario.get('correo_electronico')?.valueChanges.subscribe(value => {
       this.generarNombreUsuario(value);
     });
   }
+    
+    
 
+  // Método para manejar el toggle "¿Tiene auto?"
+  onToggleAuto(event: any) {
+    this.mostrarCampoPatente = event.detail.checked;
+  }
+
+  // Método para registrar
   async registro(): Promise<void> {
     if (this.Usuario.valid) {
-      // Guardar usuarios en localStorage
       const existingUsers = JSON.parse(localStorage.getItem('usuarios') || '[]');
       existingUsers.push(this.Usuario.value);
       localStorage.setItem('usuarios', JSON.stringify(existingUsers));
@@ -84,10 +107,13 @@ export class RegistroPage implements OnInit {
       return 'Correo electrónico inválido.';
     }
     if (this.Usuario.get('contraseña')?.hasError('minlength')) {
-      return 'La contraseña debe tener al menos 6 caracteres.';
+      return 'La contraseña debe tener al menos 8 caracteres.';
     }
     if (this.Usuario.hasError('notMatching')) {
       return 'Las contraseñas no coinciden.';
+    }
+    if (this.Usuario.get('patente')?.hasError('pattern')) {
+      return 'Formato de patente inválido. Ejemplo válido: AB-12-12 o AB-AB-21.';
     }
     return 'Por favor, completa el formulario correctamente.';
   }
