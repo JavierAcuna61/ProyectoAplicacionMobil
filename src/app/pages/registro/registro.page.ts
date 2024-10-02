@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-registro',
@@ -14,8 +15,9 @@ export class RegistroPage implements OnInit {
   fechaMinima: string = '';
   Usuario: FormGroup;
   mostrarCampoPatente: boolean = false; // Controla la visibilidad del campo de patente
+  mostrarCampoAsientos: boolean = false; // Controla la visibilidad del campo de capacidad de asientos
 
-  constructor(private router: Router, private alertController: AlertController) {
+  constructor(private router: Router, private userService: UserService, private alertController: AlertController) {
     const fechaActual = new Date();
     fechaActual.setFullYear(fechaActual.getFullYear() - 18);
     this.fechaMaxima = fechaActual.toISOString().split('T')[0];
@@ -33,6 +35,7 @@ export class RegistroPage implements OnInit {
       genero: new FormControl('', [Validators.required]), 
       tiene_auto: new FormControl(false), // Campo "¿Tiene auto?"
       patente: new FormControl('', []), // Inicialmente sin validadores
+      capacidad_asientos: new FormControl('', []), // Campo para capacidad de asientos
       correo_electronico: new FormControl('', [Validators.required, Validators.email]),
       contraseña: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]),
       confirmarContraseña: new FormControl('', [Validators.required]),
@@ -43,15 +46,23 @@ export class RegistroPage implements OnInit {
     // Subscribirse a los cambios del campo "tiene_auto"
     this.Usuario.get('tiene_auto')?.valueChanges.subscribe(value => {
       this.mostrarCampoPatente = value; // Mostrar/ocultar campo de patente
+      this.mostrarCampoAsientos = value; // Mostrar/ocultar campo de capacidad de asientos
       if (value) {
         this.Usuario.get('patente')?.setValidators([
           Validators.required,
           Validators.pattern("^[A-Z]{2}-[A-Z]{2}-[0-9]{2}$|^[A-Z]{2}-[0-9]{2}-[0-9]{2}$") // Validación para ambos formatos
         ]);
+        this.Usuario.get('capacidad_asientos')?.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(7) // Capacidad de asientos debe ser entre 1 y 7
+        ]);
       } else {
         this.Usuario.get('patente')?.clearValidators();
+        this.Usuario.get('capacidad_asientos')?.clearValidators();
       }
       this.Usuario.get('patente')?.updateValueAndValidity();
+      this.Usuario.get('capacidad_asientos')?.updateValueAndValidity();
     });
   }
 
@@ -61,11 +72,10 @@ export class RegistroPage implements OnInit {
     });
   }
     
-    
-
   // Método para manejar el toggle "¿Tiene auto?"
   onToggleAuto(event: any) {
     this.mostrarCampoPatente = event.detail.checked;
+    this.mostrarCampoAsientos = event.detail.checked;
   }
 
   // Método para registrar
@@ -114,6 +124,9 @@ export class RegistroPage implements OnInit {
     }
     if (this.Usuario.get('patente')?.hasError('pattern')) {
       return 'Formato de patente inválido. Ejemplo válido: AB-12-12 o AB-AB-21.';
+    }
+    if (this.Usuario.get('capacidad_asientos')?.hasError('min') || this.Usuario.get('capacidad_asientos')?.hasError('max')) {
+      return 'La capacidad de asientos debe estar entre 1 y 7.';
     }
     return 'Por favor, completa el formulario correctamente.';
   }

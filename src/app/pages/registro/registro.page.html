@@ -8,66 +8,72 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" style="--background: url('assets/img/fondo-login.png') no-repeat center center / cover;">
-  <ion-card class="transparent-card">
-    <form [formGroup]="Usuario" (ngSubmit)="registro()">
-      <ion-item>
-        <ion-label position="floating">RUT</ion-label>
-        <ion-input formControlName="rut" type="text"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Nombre</ion-label>
-        <ion-input formControlName="nombre" type="text"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Apellido</ion-label>
-        <ion-input formControlName="apellido" type="text"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Género</ion-label>
-        <ion-select formControlName="genero">
-          <ion-select-option value="masculino">Masculino</ion-select-option>
-          <ion-select-option value="femenino">Femenino</ion-select-option>
-          <ion-select-option value="otro">Otro</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Fecha de Nacimiento</ion-label>
-        <ion-datetime 
-          presentation="date"
-          formControlName="fecha_nacimiento" 
-          [max]="fechaMaxima"
-          [min]="fechaMinima">
-        </ion-datetime>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Correo Electrónico</ion-label>
-        <ion-input formControlName="correo_electronico" type="email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input formControlName="contraseña" type="password"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Confirmar Contraseña</ion-label>
-        <ion-input formControlName="confirmarContraseña" type="password"></ion-input>
-      </ion-item>
-      <ion-item *ngIf="Usuario.errors?.['notMatching'] && (Usuario.get('confirmarContraseña')?.touched || Usuario.get('contraseña')?.touched)">
-        <ion-label color="danger">Las contraseñas no coinciden.</ion-label>
-      </ion-item>
+  <div style="display: flex; justify-content: center; align-items: center; height: auto;">
+    <ion-card class="transparent-card">
+      <form [formGroup]="Usuario" (ngSubmit)="registro()">
+        <ion-item>
+          <ion-label position="floating">RUT</ion-label>
+          <ion-input formControlName="rut" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input formControlName="nombre" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Apellido</ion-label>
+          <ion-input formControlName="apellido" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Género</ion-label>
+          <ion-select formControlName="genero">
+            <ion-select-option value="masculino">Masculino</ion-select-option>
+            <ion-select-option value="femenino">Femenino</ion-select-option>
+            <ion-select-option value="otro">Otro</ion-select-option>
+          </ion-select>
+        </ion-item>
 
-      <!-- Campo "¿Tiene auto?" -->
-      <ion-item>
-        <ion-label>¿Tiene auto?</ion-label>
-        <ion-toggle formControlName="tiene_auto" (ionChange)="onToggleAuto($event)"></ion-toggle>
-      </ion-item>
+        <ion-item>
+          <ion-input formControlName="fecha_nacimiento" type="date" labelPlacement="stacked" label="Fecha nacimiento"></ion-input>
+        </ion-item>
 
-      <!-- Campo de Patente (se muestra solo si tiene_auto es true) -->
-      <ion-item *ngIf="mostrarCampoPatente">
-        <ion-label position="floating">Patente</ion-label>
-        <ion-input formControlName="patente" type="text"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Correo Electrónico</ion-label>
+          <ion-input formControlName="correo_electronico" type="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input formControlName="contraseña" type="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Confirmar Contraseña</ion-label>
+          <ion-input formControlName="confirmarContraseña" type="password"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="Usuario.errors?.['notMatching'] && (Usuario.get('confirmarContraseña')?.touched || Usuario.get('contraseña')?.touched)">
+          <ion-label color="danger">Las contraseñas no coinciden.</ion-label>
+        </ion-item>
 
-      <ion-button type="submit" [disabled]="Usuario.invalid" size="block" style="--background: rgb(159,183,64,255);">REGISTRAR</ion-button>
-    </form>
-  </ion-card>
+        <!-- Campo "¿Tiene auto?" -->
+        <ion-item>
+          <ion-label>¿Tiene auto?</ion-label>
+          <ion-toggle formControlName="tiene_auto" (ionChange)="onToggleAuto($event)" slot="end"></ion-toggle>
+        </ion-item>
+
+        <!-- Campo de Patente (se muestra solo si tiene_auto es true) -->
+        <ion-item *ngIf="mostrarCampoPatente">
+          <ion-label position="floating">Patente</ion-label>
+          <ion-input formControlName="patente" type="text"></ion-input>
+        </ion-item>
+
+        <!-- Campo de Capacidad de Asientos (se muestra solo si tiene_auto es true) -->
+        <ion-item *ngIf="mostrarCampoAsientos">
+          <ion-label position="floating">Capacidad de Asientos</ion-label>
+          <ion-input formControlName="capacidad_asientos" type="number"></ion-input>
+        </ion-item>
+
+        <ion-button type="submit" [disabled]="Usuario.invalid" size="block" style="--background: rgb(159,183,64,255);">REGISTRAR</ion-button>
+      </form>
+    </ion-card>
+  </div>
 </ion-content>
+
+

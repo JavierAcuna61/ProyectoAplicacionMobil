@@ -19,10 +19,6 @@ const routes: Routes = [
     path: 'registro',
     loadChildren: () => import('./pages/registro/registro.module').then(m => m.RegistroPageModule)
   },
-  /*{
-    path: 'menu',
-    loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuPageModule)
-  },*/
   {
 
     path: 'usuario',
@@ -50,12 +46,6 @@ const routes: Routes = [
     redirectTo: 'error404',
     pathMatch: 'full'
   },
-  
-
-
-  
-
-  
 ];
 
 @NgModule({
