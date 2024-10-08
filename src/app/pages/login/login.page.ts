@@ -34,11 +34,10 @@ export class LoginPage implements OnInit {
     if (usersData) {
       const users = JSON.parse(usersData);
       console.log('Usuarios en localStorage:', users);
-      console.log(users[0]["correo_electronico"])
-      console.log(users[0]["contraseña"])
+  
       // Buscar el usuario con las credenciales ingresadas
-      const user  = trimmedEmail && trimmedPassword;
-      
+      const user = users.find((u: any) => u.correo_electronico === trimmedEmail && u.contraseña === trimmedPassword);
+  
       if (user) {
         // Limpiar campos después de iniciar sesión correctamente
         this.email = '';
@@ -53,15 +52,7 @@ export class LoginPage implements OnInit {
       await this.showAlert("No se ha registrado ningún usuario.");
     }
   }
-
-  async showAlert(message: string) {
-    const alert = await this.alertController.create({
-      header: 'Error',
-      message: message,
-      buttons: ['OK']
-    });
-
-    await alert.present();
+  showAlert(arg0: string) {
+    throw new Error('Method not implemented.');
   }
-
 }

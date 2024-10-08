@@ -9,23 +9,29 @@ import { AlertController } from '@ionic/angular';
 })
 export class HomePage {
 
-  nombreUsuario: string = '';
+  nombre_usuario: string = '';
 
   constructor(private router: Router, private alertController: AlertController) {}
 
+  
+
   async ngOnInit() {
-    const usuario = localStorage.getItem('usuario');
-    if (usuario) {
-      const userData = JSON.parse(usuario);
-      this.nombreUsuario = userData.nombre_usuario;
+    console.log('ngOnInit llamado'); // Para depuración
+    const Usuarios = localStorage.getItem('usuario');
+    if (Usuarios) {
+      const userData = JSON.parse(Usuarios);
+      this.nombre_usuario = userData.nombre_usuario;
       await this.presentWelcomeAlert();
+    } else {
+      console.log('No hay usuario en localStorage'); // Para depuración
     }
   }
+  
 
   async presentWelcomeAlert() {
     const alert = await this.alertController.create({
       header: 'Bienvenido',
-      message: `¡Hola, ${this.nombreUsuario}!`,
+      message: `¡Hola, ${this.nombre_usuario}!`,
       buttons: ['OK']
     });
 
@@ -56,5 +62,7 @@ export class HomePage {
     await alert.present();
   }
 
+  
+  
   
 }
