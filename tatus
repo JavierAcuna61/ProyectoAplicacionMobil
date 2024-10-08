@@ -1,0 +1,108 @@
+[33mcommit 1e06a2b00bdb0332b87292b8fc33851141413e6a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: vicenticko <vi.gilbert@duocuc.cl>
+Date:   Fri Oct 4 19:19:16 2024 -0300
+
+    1.6.3 cambio paginas hijas en home
+
+[33mcommit b16d62ae1aa6c3fb065d2a7bfffba472cfca3bc7[m
+Author: vicenticko <vi.gilbert@duocuc.cl>
+Date:   Wed Oct 2 17:40:45 2024 -0300
+
+    1.6.2 pequeños cambios en pagina registro
+
+[33mcommit 3088fc5de7b89bfbede616f841b2cca4748bc379[m
+Author: vicenticko <vi.gilbert@duocuc.cl>
+Date:   Wed Oct 2 17:34:23 2024 -0300
+
+    1.6.1 cambio estilos de pagina login,registro y recuperar
+
+[33mcommit c222b2cee06d5160a6a58cd8a2ac2be6427e82fa[m
+Author: JavierAcuna61 <ja.acuna@duocuc.cl>
+Date:   Tue Oct 1 12:48:46 2024 -0300
+
+    1.6
+
+[33mcommit 5b2c2ea7036b613e77d9bc2aea9b6c0adca1c6fc[m
+Author: vicenticko <vi.gilbert@duocuc.cl>
+Date:   Fri Sep 27 12:12:43 2024 -0300
+
+    1.5.5 cambio pag login, home y menu y cambio estilo del login, resistro y recuperar, pag error404 tiene pequeños fallos
+
+[33mcommit d7d64f26d456249666188922ac9864355c9ac5f5[m
+Author: vicenticko <vi.gilbert@duocuc.cl>
+Date:   Thu Sep 26 20:39:27 2024 -0300
+
+    1.5.4 arreglo pag error404
+
+[33mcommit ba5c28616ce4f39eebbe162db76a26752691b87b[m
+Author: JavierAcuna61 <ja.acunaq@duocuc.cl>
+Date:   Tue Sep 17 12:15:53 2024 -0300
+
+    1.5.3 version arreglo de login y administrador
+
+[33mcommit 403f504517e6f1b6c299ad86cde01c629037f38d[m
+Author: JavierAcuna61 <ja.acunaq@duocuc.cl>
+Date:   Sun Sep 15 18:56:25 2024 -0300
+
+    1.5.2 version no funciona el admin
+
+[33mcommit 4aca74e4f85c4716946ea91a2359e46c0d04d7d5[m
+Author: JavierAcuna61 <ja.acunaq@duocuc.cl>
+Date:   Sun Sep 15 17:12:36 2024 -0300
+
+    1.5.1 version
+
+[33mcommit 2da3e27a65d224cbc7a79a3f6f72bba7f16c83e4[m
+Merge: b39f18e f60e26a
+Author: JavierAcuna61 <ja.acunaq@duocuc.cl>
+Date:   Sun Sep 15 16:52:26 2024 -0300
+
+    arreglo
+
+[33mcommit b39f18e7d1dbfe05af5218301b7092577228adaf[m
+Author: JavierAcuna61 <ja.acunaq@duocuc.cl>
+Date:   Sun Sep 15 16:10:49 2024 -0300
+
+    1.5 version
+
+[33mcommit 72832b7f16596f7e47737c71d4a5637ff1acecf5[m
+Author: JavierAcuna61 <ja.acunaq@duocuc.cl>
+Date:   Sat Sep 14 21:15:48 2024 -0300
+
+    version 1.5 usuarios desde localstorage
+
+[33mcommit f60e26a63e12e8750092ea45bf1cddf78e221f92[m[33m ([m[1;31morigin/error-404,-nombre-de-usuario,-alerta-al-entral-al-menu,-users-guardados-en-localstorage,-login-que-no-funciona-tristemente[m[33m)[m
+Author: vicenticko <vi.gilbert@duocuc.cl>
+Date:   Sat Sep 14 20:14:12 2024 -0300
+
+    pagina error404
+
+[33mcommit 65ab9b4eef09ba8b177c984dbddf6c995391c84e[m
+Author: JavierAcuna61 <ja.acunaq@duocuc.cl>
+Date:   Sat Sep 14 18:08:29 2024 -0300
+
+    1.4 registro,login y boton de salida funcional
+
+[33mcommit 1badbb04870b562cc419e3809887de77e51a4957[m
+Author: JavierAcuna61 <ja.acunaq@duocuc.cl>
+Date:   Wed Sep 11 18:59:42 2024 -0300
+
+    version 1.3 mejora registro, menu, login semi funcional y admin en clases
+
+[33mcommit 35855311cd7ed0fe9c2e5ad0c8a32967475d151f[m
+Author: JavierAcuna61 <ja.acunaq@duocuc.cl>
+Date:   Tue Sep 10 12:44:48 2024 -0300
+
+    1.2 crud casi completo y arreglar formulario
+
+[33mcommit 03d7b901d9953d3de9bbe4d082a74144ab150361[m
+Author: JavierAcuna61 <ja.acunaq@duocuc.cl>
+Date:   Mon Sep 9 20:35:27 2024 -0300
+
+    v1.1 registro mejoras sin terminar
+
+[33mcommit d64021215c7524c4c7cdfc747ea8a00385437529[m
+Author: JavierAcuna61 <ja.acunaq@duocuc.cl>
+Date:   Sun Sep 8 19:15:27 2024 -0300
+
+    version 1.0 login y registro
